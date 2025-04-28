@@ -20,9 +20,20 @@ public class CitaController {
     private AgendaService agendaService;
 
     @PostMapping("/agendar")
-    public void agendarCita(@RequestBody Cita cita) {
+public ResponseEntity<String> agendarCita(@RequestBody Cita cita) {
+    try {
         agendaService.agregarCita(cita);
+        return ResponseEntity.ok("Cita agendada correctamente");
+    } catch (IllegalStateException e) {
+        // Si duplicada
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("❌ Ya existe una cita a esa hora.");
+    } catch (Exception e) {
+        // Errors
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("❌ Error inesperado al agendar.");
     }
+}
+
 
     @PostMapping("/cancelar")
     public ResponseEntity<String> cancelarCita(@RequestBody CancelarRequest cancelarRequest) {

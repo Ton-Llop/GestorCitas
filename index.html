@@ -36,40 +36,55 @@
 
     <script>
         function agendarCita() {
-            const nombre = document.getElementById('nombre').value;
-            const telefono = document.getElementById('telefono').value;
-            const email = document.getElementById('email').value;
-            const fechaHora = document.getElementById('fechaHora').value;
-            const servicio = document.getElementById('servicio').value;
+    const nombre = document.getElementById('nombre').value;
+    const telefono = document.getElementById('telefono').value;
+    const email = document.getElementById('email').value;
+    const fechaHora = document.getElementById('fechaHora').value;
+    const servicio = document.getElementById('servicio').value;
 
-            const cita = {
-                fechaHora: fechaHora,
-                cliente: {
-                    nombre: nombre,
-                    telefono: telefono,
-                    email: email
-                },
-                servicio: servicio
-            };
+    const any = fechaHora.substring(0, 4);
+    if (!/^\d{4}$/.test(any)) {
+        mostrarMensaje(" El año debe ser exactamente de 4 cifras (ej: 2025).", "red");
+        return;
+    }
 
-            fetch('http://localhost:8080/api/citas/agendar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(cita)
-            }).then(response => {
-                if (response.ok) {
-                    mostrarMensaje("✅ Cita agendada correctamente.", "green");
-                    listarCitas();
-                } else {
-                    mostrarMensaje("❌ Error al agendar la cita.", "red");
-                }
-            }).catch(error => {
-                console.error(error);
-                mostrarMensaje("❌ Error de conexión.", "red");
-            });
+    if (parseInt(any) < 2025 || parseInt(any) > 2100) {
+        mostrarMensaje(" El año debe ser razonable (entre 2025 y 2100).", "red");
+        return;
+    }
+
+    const cita = {
+        fechaHora: fechaHora,
+        cliente: {
+            nombre: nombre,
+            telefono: telefono,
+            email: email
+        },
+        servicio: servicio
+    };
+
+    fetch('http://localhost:8080/api/citas/agendar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cita)
+    }).then(response => {
+        if (response.ok) {
+            mostrarMensaje("✅ Cita agendada correctamente.", "green");
+            listarCitas();
+        } else if (response.status === 409) {
+            // si ja exiteix
+            mostrarMensaje("❌ Ya existe una cita a esa hora.", "red");
+        } else {
+            mostrarMensaje("❌ Error al agendar la cita.", "red");
         }
+    }).catch(error => {
+        console.error(error);
+        mostrarMensaje("❌ Error de conexión.", "red");
+    });
+}
+
 
         function cancelarCita() {
             const fecha = document.getElementById('fechaCancelar').value;
