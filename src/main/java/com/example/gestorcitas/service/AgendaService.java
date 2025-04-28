@@ -18,8 +18,13 @@ public class AgendaService {
     private CitaRepository citaRepository;
 
     public void agregarCita(Cita cita) {
+        boolean existe = citaRepository.existsByFechaHora(cita.getFechaHora());
+        if (existe) {
+            throw new IllegalStateException("Ya existe una cita en esta fecha y hora.");
+        }
         citaRepository.save(cita);
     }
+    
 
     @Transactional
     public void cancelarCita(LocalDateTime fechaHora) {

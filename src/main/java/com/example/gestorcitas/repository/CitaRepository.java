@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface CitaRepository extends JpaRepository<Cita, Long> {
     Optional<Cita> findByFechaHora(LocalDateTime fechaHora);
+    boolean existsByFechaHora(LocalDateTime fechaHora);
     void deleteByFechaHora(LocalDateTime fechaHora);
 }

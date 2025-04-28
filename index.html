@@ -93,18 +93,31 @@
         }
 
         function listarCitas() {
-            fetch('http://localhost:8080/api/citas')
-                .then(response => response.json())
-                .then(data => {
-                    const lista = document.getElementById('listaCitas');
-                    lista.innerHTML = '';
-                    data.forEach(cita => {
-                        const item = document.createElement('li');
-                        item.textContent = `${cita.fechaHora.replace('T', ' ')} - ${cita.cliente.nombre} (${cita.servicio})`;
-                        lista.appendChild(item);
-                    });
-                });
-        }
+    fetch('http://localhost:8080/api/citas')
+        .then(response => response.json())
+        .then(data => {
+            const lista = document.getElementById('listaCitas');
+            lista.innerHTML = '';
+            data.forEach(cita => {
+                const item = document.createElement('li');
+                item.textContent = `${cita.fechaHora.replace('T', ' ')} - ${cita.cliente.nombre} (${cita.servicio})`;
+
+                // Si escrius Joni Dropa et fica la foto
+                if (cita.servicio === "Joni Dropa") {
+                    const img = document.createElement('img');
+                    img.src = 'joni.jpg'; 
+                    img.alt = 'Joni Dropa especial';
+                    img.style.width = '300px'; 
+                    img.style.display = 'block';
+                    img.style.marginTop = '10px';
+                    item.appendChild(img);
+                }
+
+                lista.appendChild(item);
+            });
+        });
+}
+
 
         function mostrarMensaje(texto, color) {
             const mensajeDiv = document.getElementById('mensaje');
