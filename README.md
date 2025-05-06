@@ -18,5 +18,6 @@ git clone https://github.com/Ton-Llop/gestorcitas.git
 cd gestorcitas
 ```
 ### 3. Runea spring-boot ( tienes que tener maven descargado)
-
+```bash
 mvn spring-boot:run
+```
