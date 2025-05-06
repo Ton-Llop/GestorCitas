@@ -1,9 +1,9 @@
 # GestorCitas
 # Instrucciones de ejecución
 
-Este proyecto se desarrolla con **Java 17** utilizando **Spring Boot**. A continuación se detallan los pasos para ejecutar el proyecto localmente y hacerlo accesible desde otros dispositivos utilizando **Ngrok**.
+Este proyecto se desarrolla con **Java 17** utilizando **Spring Boot**. A continuación se detallan los pasos para ejecutar el proyecto localmente.
 
-## 🚀 Cómo ejecutar el proyecto localmente
+##  Cómo ejecutar el proyecto localmente
 
 ### 1. Clonar el repositorio
 
